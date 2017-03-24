@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>d3基础</title>
+  <style type="text/css">
+    p,svg{
+       margin: 0;
+       padding: 0;
+    }
+    p{
+      font-size: 20px;
+      font-family: "微软雅黑";
+    }
+  </style>
+  <script src="d3.js"></script>
+</head>
+<body>
+
+    <p>矩形</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <rect x="20" y="20" width="200" height="200" style="fill:steelblue; stroke:blue; stroke-width:4; opacity:0.5" />
+    </svg>
+
+    <p>圆角矩形</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <rect x="20" y="20" rx="20" ry="20" width="200" height="200" style="fill:steelblue; stroke:blue; stroke-width:4; opacity:0.5" />
+    </svg>
+
+    <p>圆形</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <circle cx="50" cy="50" r="20" style="fill:yellow; stroke:black; stroke-width:4" />
+    </svg>
+
+    <p>椭圆</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <ellipse cx="120" cy="100" rx="100" ry="80" style="fill:yellow; stroke:black; stroke-width:4" />
+    </svg>
+
+    <p>线段</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <line x1="120" y1="20" x2="100" y2="80" style="fill:yellow; stroke:black; stroke-width:4" />
+    </svg>
+
+    <p>多边形</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <polygon points="100,20 20,90, 60,160 140,160 180,90" style="fill:lawngreen; stroke:black; stroke-width:3" />
+    </svg>
+
+    <p>折线</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" version="1.1">
+      <polyline points="100,20 20,90, 60,160 140,160 180,90" style="fill:white; stroke:black; stroke-width:3" />
+    </svg>
+
+    <p>绘制直线</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" version="1.1">
+      <path d="M100,100 H500
+             M300,100 V500
+             M100,500 H500
+             M200,200 L100,400
+             M150,300 L250,400
+             M450,200 L350,400
+             M400,300 L500,400"
+          style="stroke:black; stroke-width:3; fill:yellow;" />
+    </svg>
+
+    <p>绘制3次贝塞尔曲线</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" version="1.1">
+      <path d="M30,100 C100,20 190,20 270,100 S400,180 450,100" style="stroke:green; fill:yellow; stroke-width:3" />
+    </svg>
+
+    <p>绘制2次贝塞尔曲线</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="600" height="200" version="1.1">
+      <path d="M30,100 Q190,20 270,100 T450,100" style="stroke:green; fill:yellow; stroke-width:3" />
+    </svg>
+
+    <p>绘制弧线</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" version="1.1">
+      <path d="M100,200 a200,150 0 1,0 150,-150 Z" style="stroke:green; fill:yellow; stroke-width:3" />
+    </svg>
+
+    <p>文字</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="200" version="1.1">
+      <text x="200" y="50" dx="-5" dy="5" rotate="180" textLength="70" style="fill:green; font-size:30px;">这是<tspan style="fill:yellow">文字</tspan></text>
+    </svg>
+
+    <p>标记</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="200" version="1.1">
+
+      <defs>
+        //先定义一个圆点
+        <marker id="markerCircle" markerWidth="8" markerHeight="8" refx="5" refy="5">
+          <circle cx="5" cy="5" r="3" style="stroke: none; fill:#000000;"/>
+        </marker>
+        //先定义一个箭头
+        <marker id="markerArrow" markerWidth="13" markerHeight="13" refx="2" refy="6" orient="auto">
+          <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #000000;" />
+        </marker>
+      </defs>
+
+      //然后画直线
+      <line x1="0" y1="0" x2="100" y2="50"  stroke="red" stroke-width="1" marker-end="url(#markerArrow)"  />
+
+      <path d="M100,10 L150,10 L150,60"
+          style="stroke: #6666ff; stroke-width: 1px; fill: none;
+                 marker-start: url(#markerCircle);
+                 marker-mid: url(#markerCircle);
+                 marker-end: url(#markerArrow) "
+          />
+    </svg>
+
+    <p>滤镜</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="200" version="1.1">
+      //先定义一个滤镜
+      <defs>
+        <filter id="GaussianBlur">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+        </filter>
+      </defs>
+      //定义一个矩形
+      <rect x="300" y="100" width="150" height="100" style="fill:blue; filter:url(#GaussianBlur)" />
+    </svg>
+
+    <p>渐变</p>
+    <svg xmlns="http://www.w3.org/2000/svg" width="500" height="200" version="1.1">
+        //先定义一个渐变
+        <defs>
+          <linearGradient id="Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#F00" />
+            <stop offset="100%" stop-color="green" />
+          </linearGradient>
+        </defs>
+        //定义一个矩形
+        <rect x="300" y="100" width="150" height="100" style="fill:url(#Gradient)" />
+    </svg>
+
+    <p>1.用D3来更改hello world</p>
+    <span>1</span>
+    <span>2</span>
+
+    <script type="text/javascript">
+      var span = d3.select('body')
+                  .selectAll('span')
+                  .text('hello world')
+
+      // 修改标签的颜色和字体大小
+      span.style('color','green')
+          .style('font-size','30px')
+
+    </script>
+    <br/>
+
+    <p>2.选择集</p>
+    <a>1</a>
+    <a>2</a>
+    <a>3</a>
+    <p id="chooseText"></p>
+    <script type="text/javascript">
+      var a = d3.select('body')
+               .selectAll('a')
+      console.log(a.empty())   //false
+      console.log(a.node())    //<a>1</a>
+      console.log(a.size())    //3
+    </script>
+    <br />
+
+    <p>3.设定或获取选择集属性</p>
+    <div id="addCircle"></div>
+    <script type="text/javascript">
+      var svg = d3.select('body')
+               .select('#addCircle')
+               .append('svg')
+               .attr('width','300')
+               .attr('height','100')
+
+      svg.append('circle')
+         .attr('cx','50')
+         .attr('cy','50')
+         .attr('r','20')
+         .attr('fill','red')
+         .attr('class','name size content')
+         .classed('name',true)  //开启name类
+         .classed('size',false)  //关闭size类
+         .classed({'name':false,'size':true})  //也可以这样写在对象里面
+         .classed('size content',false)  //也可以用空格分开写在一起
+
+    </script>
+    <br/>
+
+    <p>4.style属性</p>
+    <h1>my name is h1</h1>
+    <script type="text/javascript">
+      var svg = d3.select('body')
+               .select('h1')
+               .style('color','pink')
+               .style('font-size','35px')
+               .style({"text-decoration":"underline","cursor":"pointer"})
+    </script>
+    <br/>
+
+    <p>5.获取选择集属性</p>
+    <input type="text" name="fullname" id="inputName" />
+    <script type="text/javascript">
+      var inputValue = d3.select('body')
+               .select('#inputName')
+               // .property("value")  //返回值是你输入的值
+               .property('value','d3')  //给文本框赋值 d3
+               
+    </script>
+    <br/>
+
+    <p>6.获取选择集的文本内容</p>
+    <p id="pText">薛<span>之</span>谦</p>
+    <script type="text/javascript">
+      console.log(d3.select('body').select('#pText').text())  
+    </script>
+    <br/>
+
+    <p>7.设定或获取选择集的内部HTML内容</p>
+    <p id="pText">薛<span>之</span>谦</p>
+    <script type="text/javascript">
+      console.log(d3.select('body').select('#pText').html())
+    </script>
+    <br/>
+
+    <p>8.添加、插入、删除</p>
+    <p id="car">car</p>
+    <p id="plane">plane</p>
+    <p id="ship">ship</p>
+    <script type="text/javascript">
+      var body = d3.select('body')  //选择body元素
+      body.append('p').text('train')  //在body中所有元素的末尾添加一个P标签
+      body.insert('p','#car').text('bike')  //在car元素前面添加一个P标签
+      var ship = d3.select('#ship')
+                   .remove()  //删除ship
+    </script>
+    <br/>
+    
+    <p>9.datum的工作过程</p>
+    <p class="num">one</p>
+    <p class="num">two</p>
+    <p class="num">three</p>
+    <script type="text/javascript">
+      var num = d3.select('body')
+                  .selectAll('.num')
+
+      num.datum(666)
+      console.log(num)
+      console.log(num.datum())  //没有参数 就返回——data——的属性值
+    </script>
+    <br/>
+
+    <p>10.datum绑定数据并替换原始的段落</p>
+    <p class="num1">原创歌手</p>
+    <p class="num1">段子手</p>
+    <p class="num1">深情的</p>
+    <script type="text/javascript">
+      var num1 = d3.select('body')
+                  .selectAll('.num1')
+
+      num1.datum("薛之谦")
+          .append('span')
+          .text(function(d,i){  //d代表数据 i代表index
+            return "——"+d+i+"号"
+          })
+      console.log(num1)
+    </script>
+    <br/>
+
+    <p>11.data的工作过程</p>
+    <p class="n">演员</p>
+    <p class="n">刚刚好</p>
+    <p class="n">认真的雪</p>
+    <script type="text/javascript">
+      var n = d3.select('body')
+                  .selectAll('.n')
+      var dataset = ["《绅士》","《初学者》","《未完成的歌》","《一半》","《意外》"]
+
+      var update = n.data(dataset)
+      update.append('span')
+          .text(function(d,i){  //d代表数据 i代表index
+            return "——"+d
+          })
+      console.log(update)
+      console.log(update.enter())
+      console.log(update.exit())
+    </script>
+    <br/>
+
+<!--     <p>12.data()绑定顺序</p>
+    <p class="n2">演员</p>
+    <p class="n2">刚刚好</p>
+    <p class="n2">认真的雪</p>
+    <script type="text/javascript">
+      var n = d3.select('body')
+                  .selectAll('.n2')
+      var dataset1 = [{id:1,zhuanji:"《绅士》"},
+                      {id:2,zhuanji:"《初学者》"},
+                      {id:3,zhuanji:"《未完成的歌》"}]
+
+      var update = n.data(dataset1)
+      update.append('span')
+      .text(function(d){  //d代表数据
+            return "——"+d.id+"专辑："+d.zhuanji
+          })
+      //更新dataset1的数据，再绑定一次
+      var dataset1 = [{id:2,zhuanji:"《初学者》"},
+                {id:3,zhuanji:"《绅士》"},
+                {id:1,zhuanji:"《未完成的歌》"}]
+      var update = n.data(dataset1,function(d){return d.id})
+                    .text(function(d){
+                      return d.id+":"+d.zhuanji
+                    })
+    </script>
+    <br/> -->
+ 
+    <p>12.enter的处理方法</p>
+    <script type="text/javascript">
+      var dataset2 = [10,20,30,40,50,60]
+      var body = d3.select('body')
+      body.selectAll('b')  //选择了一个空集
+          .data(dataset2)  //绑定数据
+          .enter()  //返回enter部分
+          .append('p')  //添加li标签
+          .text(function(d){
+            return d
+          })
+    </script>
+    <br/>
+
+    <p>13.exit的处理方法</p>
+    <div id="boxs">
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+    <script type="text/javascript">
+      var dataset2 = [10,20,30]
+      var body = d3.select('body')
+      body.select('#boxs')  
+          .selectAll('p')
+          .data(dataset2)  //绑定数据
+          .text(function(d){
+            return d
+          })
+          .exit()  //返回exit部分
+          .remove()  //删除多余的2个P标签
+    </script>
+    <br/>
+
+    <p>14.线性比例尺</p>
+    <script type="text/javascript">
+      var dataset = [1.2, 2.3, 0.9, 1.5, 3.3]
+      var min = d3.min(dataset)
+      var max = d3.max(dataset)
+      var linear = d3.scale.linear()
+                     .domain([min,max])
+                     .range([0,300])
+      console.log(linear(0.9))
+      console.log(linear(2.3))
+      console.log(linear(3.3))
+    </script>
+    <br/>
+
+    <p>14.序数比例尺</p>
+    <script type="text/javascript">
+      var index = [0,1,2,3,4]
+      var color = ["red","blue","green","yellow","black"]
+      var ordinal = d3.scale.ordinal()
+                .domain(index)
+                .range(color)
+      console.log(ordinal(0))
+      console.log(ordinal(2))
+      console.log(ordinal(4))
+    </script>
+    <br/>
+
+</body>
+</html>

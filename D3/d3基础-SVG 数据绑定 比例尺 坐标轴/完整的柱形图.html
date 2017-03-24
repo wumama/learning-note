@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>完整的柱形图</title>
+  <script src="d3.js"></script>
+  <style>
+  .axis path,
+  .axis line{
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+    stroke-width: 3;
+  }
+
+  .axis text {
+    font-family: "微软雅黑";
+    font-size: 11px;
+    /*display: none;*/
+  }
+  }
+</style>
+</head>
+<body>
+<script type="text/javascript">
+    //首先绘制SVG
+    var width = 600
+    var height = 300
+    var svg = d3.select('body')
+                .append('svg')
+                .attr('width',width)  //设置svg的属性
+                .attr('height',height)
+
+    //然后定义3个变量
+    //定义上下左右的边距
+    var padding = {
+      top: 20,
+      right: 20,
+      bottom: 20,
+      left: 50
+    }
+    //矩形所占的宽度（包括空白）
+    var rectStep = 35
+    //矩形所占的宽度（不包括空白）
+    var rectWidth = 30
+
+    //定义数据
+    var dataset = [60,40,120,88,22,130,60,55]
+
+    //X轴的比例尺
+    var xScale = d3.scale.ordinal()  //ordinal()序数比例尺
+                   .domain(d3.range(dataset.length))  //定义域
+                   .rangeRoundBands([0 ,width - padding.left - padding.right])  //值域  rangeRoundBands()比例尺的输出值会进行四舍五入的运算，结果为整数
+    //Y轴的比例尺
+    var yScale = d3.scale.linear()  //linear()线性比例尺
+                   .domain([0,d3.max(dataset)])
+                   .range([height - padding.top - padding.bottom, 0])
+    //定义X轴
+    var xAxis = d3.svg.axis()
+                  .scale(xScale)  //指定比例尺
+                  .orient("bottom")  //指定刻度的方向
+    //定义Y轴
+    var yAxis = d3.svg.axis()
+                  .scale(yScale)
+                  .orient('left')
+
+    //添加矩形
+    var rects = svg.selectAll('rect')
+       .data(dataset)
+       .enter()
+       .append('rect')
+       .attr("x",function(d,i){  //设置矩形的X坐标
+          return  xScale(i) + (rectWidth+(rectStep-rectWidth))/2
+       })
+       .attr('y',function(d,i){  //设置矩形的Y坐标
+          return  yScale(d) 
+       })
+       .attr('width',rectWidth)  //设置每个矩形的宽度
+       .attr('height',function(d,i){  //设置每个矩形的高度
+          return height - padding.top - padding.bottom - yScale(d)
+       })
+       .style({"fill":"yellow","stroke":"green","stroke-width":'3'})
+       .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+
+    //给矩形添加文字
+    var text = svg.selectAll('text')
+                 .data(dataset)
+                 .enter()
+                 .append('text')
+                 .style({"fill":"#000","font-size":"18px","text-anchor":"middle"})
+                 .attr('x',function(d,i){
+                    return xScale(i) + (rectWidth+(rectStep-rectWidth))/2
+                 })
+                 .attr('y',function(d){
+                    return yScale(d) + padding.top
+                 })
+                 .attr("transform","translate(" + padding.left + ")")
+                 .attr('dx',rectWidth/2)
+                 .attr('dy','-5')
+                 .text(function(d){
+                    return d
+                 })
+                 
+                 
+    //添加X轴
+    svg.append('g')
+       .attr('class','axis')
+       .attr('transform','translate('+padding.left+','+(height-padding.bottom)+')')
+       .call(xAxis)
+
+    //添加Y轴
+    svg.append('g')
+       .attr('class','axis')
+       .attr('transform','translate('+padding.left+','+padding.top+')')
+       .call(yAxis)
+
+</script>
+</body>
+
+</html>

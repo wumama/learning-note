@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>给柱形图添加比例尺</title>
+  <script src="d3.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    //首先绘制SVG
+    var width = 600
+    var height = 200
+    var svg = d3.select('body')
+                .append('svg')
+                .attr('width',width)  //设置svg的属性
+                .attr('height',height)
+    //然后定义3个变量
+    //定义上下左右的边距
+    var padding = {
+      top: 20,
+      right: 20,
+      bottom: 20,
+      left: 20
+    }
+    //矩形所占的宽度（包括空白）
+    var rectStep = 35
+    //矩形所占的宽度（不包括空白）
+    var rectWidth = 30
+
+    //定义数据
+    var dataset = [360,540,420,188,252,150,100,55]
+
+    //比例尺
+    var linear = d3.scale.linear()
+                   .domain([0,d3.max(dataset)])
+                   .range([0,150])
+    //添加矩形
+    svg.selectAll('rect')
+       .data(dataset)
+       .enter()
+       .append('rect')
+       .attr("x",function(d,i){  //设置矩形的X坐标
+          return padding.left + i * rectStep
+       })
+       .attr('y',function(d,i){  //设置矩形的Y坐标
+          return height - padding.bottom - linear(d)
+       })
+       .attr('width',rectWidth)  //设置每个矩形的宽度
+       .attr('height',function(d,i){  //设置每个矩形的高度
+          return linear(d)
+       })
+       .style({"fill":"yellow","stroke":"green","stroke-width":'3'})
+
+    //给矩形添加文字
+    var text = svg.selectAll('text')
+                 .data(dataset)
+                 .enter()
+                 .append('text')
+                 .style({"fill":"#000","font-size":"18px","text-anchor":"middle"})
+                 .attr('x',function(d,i){
+                    return padding.left + i * rectStep
+                 })
+                 .attr('y',function(d){
+                    return height - padding.bottom - linear(d)
+                 })
+                 .attr('dx',rectWidth/2)
+                 .attr('dy','-5')
+                 .text(function(d){
+                    return d
+                 })
+                 
+
+</script>
+</body>
+
+</html>
